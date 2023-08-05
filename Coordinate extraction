@@ -1,0 +1,69 @@
+import cv2
+import numpy as np
+# import openpyxl module
+import openpyxl
+i=1;
+import glob
+# Call a Workbook() function of openpyxl 
+# to create a new blank Workbook object
+wb = openpyxl.Workbook()
+  
+# Get workbook active sheet  
+# from the active attribute
+sheet = wb.active
+  
+    # Cell objects also have row, column
+    # and coordinate attributes that provide
+    # location information for the cell.
+  
+img_path=r"C:\Users\user\Desktop\Python project\im1(1).jpeg"
+
+img_raw = cv2.imread(img_path)
+orig =  img_raw.copy()
+(newW, newH) = (300,300)
+(H, W) = orig.shape[:2]
+img_raw = cv2.resize(orig, (newW, newH))
+
+rW = W / float(newW)
+rH =H / float(newH)
+# resize the image and grab the new image dimensions
+image = cv2.resize(img_raw, (newW, newH))
+#select ROI function
+roi = cv2.selectROI(img_raw)
+
+#print rectangle points of selected roi
+print(roi)
+
+#Crop selected roi from raw image
+roi_cropped = img_raw[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
+# using sheet object's cell() method.
+c1 = sheet.cell(row = i, column = 1)
+  
+# writing values to cells
+c1.value = int(roi[0])
+  
+c2 = sheet.cell(row= i , column = 2)
+c2.value =int(roi[1])
+  
+# Once have a Worksheet object, one can
+# access a cell object by its name also.
+# A2 means column = 1 & row = 2.
+c3 = sheet.cell(row= i , column = 3)
+c3.value = int(roi[2])
+  
+# B2 means column = 2 & row = 2.
+c4 = sheet.cell(row= i , column = 4)
+c4.value = int(roi[3])
+
+print (int(rW* roi[0]),int(rH*roi[1]),int(rW*roi[0]+rW*roi[2]),int(rH*roi[1]+rH*roi[3]))
+#wb.save("C:\\Users\\user\\Desktop\\demo.xlsx")
+#show cropped image
+cv2.imshow("ROI", roi_cropped)
+cv2.imwrite("crop.jpeg",roi)
+
+cv2.imwrite("crop.jpeg",roi_cropped)
+#hold window
+cv2.waitKey(0)
+
+
+
