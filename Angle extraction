@@ -1,0 +1,23 @@
+# Angle of movie title box  extraction
+import numpy as np
+import argparse
+import imutils
+import cv2
+# load the image from disk\
+image = cv2.imread(r"C:\Users\user\Desktop\Project\Dataset\Angle\One(1).jpg"
+)
+# loop over the rotation angles
+#for angle in np.arange(0, 360, 15):
+#	rotated = imutils.rotate(image, angle)
+#	cv2.imshow("Rotated (Problematic)", rotated)FIGHT_CLUB
+#	cv2.waitKey(0)
+# loop over the rotation angles again, this time ensuring
+i=0;
+for angle in np.arange(0, -90, -1):
+	rotated = imutils.rotate_bound(image, angle)
+	cv2.imshow("Rotated (Correct)", rotated)
+	cv2.imwrite(r"C:\Users\user\Desktop\Python project\my bent\One(1).jpg", rotated)
+	i=i+1;
+	print(i)
+	cv2.waitKey(0)
+
